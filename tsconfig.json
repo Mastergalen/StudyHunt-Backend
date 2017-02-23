@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/",
+        "module": "commonjs",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "target": "es5",
+        "lib": [
+          "es2016"
+        ]
+    },
+    "include": [
+        "app.ts",
+        "./src/**/*"
+    ]
+}
