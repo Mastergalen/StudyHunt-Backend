@@ -37,4 +37,10 @@ router.get('/libraries/{id}', (req, res) => {
   , null, 3));
 });
 
+router.post('/test', (req, res) => {
+  console.log(req.body);
+
+  res.send('success');
+});
+
 export default router;

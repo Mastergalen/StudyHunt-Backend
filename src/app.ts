@@ -8,8 +8,9 @@ import libraryRouter from './controllers/LibraryController';
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const pe = new PrettyError();
 pe.skipNodeFiles();
