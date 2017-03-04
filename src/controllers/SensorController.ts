@@ -1,5 +1,7 @@
 import * as util from 'util';
 import * as express from 'express';
+import Sensor from "../models/Sensor";
+import Seat from "../models/Seat";
 
 const router = express.Router();
 
@@ -28,7 +30,31 @@ router.post('/sensors/:id', async (req: express.Request, res: express.Response) 
     return res.status(400).json(errorResponse("seats needs to be defined"));
   }
 
-  return res.json({success: true});
+  let seats = await Sensor.getSeats(req.params.id);
+
+  if (seats.length !== Object.keys(req.body.seats).length) {
+    return res.status(500).json(errorResponse("Seat configuration in DB does not match"));
+  }
+
+  let p = [];
+  let updatedSeatIds = [];
+  for (let i = 0; i < seats.length; i++) {
+    let isOccupied = req.body.seats[(i + 1).toString()];
+    let seatId = seats[i].seat_id;
+    updatedSeatIds.push({
+      id: seatId,
+      isOccupied
+    });
+
+    p.push(Seat.update(seatId, !isOccupied));
+  }
+
+  await Promise.all(p);
+
+  return res.json({
+    success: true,
+    updatedSeatIds
+  });
 });
 
 export default router;

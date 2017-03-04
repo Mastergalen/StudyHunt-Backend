@@ -1,10 +1,9 @@
 import db from "../db";
 import Seat from "./Seat";
+import Model from "./Model";
 
-class Library {
-  static async fetchAll() {
-    return await db.select().from('libraries');
-  }
+class Library extends Model {
+  protected static tableName = 'libraries';
 
   static async getSeats(libraryId: number) {
     return await db.select(

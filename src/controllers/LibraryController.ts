@@ -10,7 +10,7 @@ router.get('/libraries', async (req, res) => {
 
   console.log(libraries);
 
-  for(let l of libraries) {
+  for (let l of libraries) {
     l.capacity = await Library.countAllSeats(l.id);
     l.available = await Library.countVacantSeats(l.id);
     l.seats = await Library.getSeats(l.id);
@@ -19,23 +19,25 @@ router.get('/libraries', async (req, res) => {
   return res.json(libraries);
 });
 
-router.get('/libraries/{id}', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(
-  {
-    "id": 1,
-    "name": "UCL Science Library",
-    "available": "4",
-    "capacity": "8",
-    "energyEfficiency": "80",
+router.get('/libraries/:id', async (req, res) => {
+  try {
+    let library: any = await Library.fetch(req.params.id);
+
+    if (!library) {
+      return res.status(404).json({
+        success: false,
+        message: 'Not found'
+      });
+    }
+
+    library.capacity = await Library.countAllSeats(req.params.id);
+    library.available = await Library.countVacantSeats(req.params.id);
+    library.seats = await Library.getSeats(req.params.id);
+
+    return res.json(library);
+  } catch (e) {
+    console.error(e);
   }
-  , null, 3));
-});
-
-router.post('/test', (req, res) => {
-  console.log(req.body);
-
-  res.send('success');
 });
 
 export default router;

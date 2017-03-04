@@ -5,7 +5,6 @@
   "author": "Mastergalen <Mastergalen@users.noreply.github.com>",
   "private": true,
   "dependencies": {
-    "@types/lodash": "^4.14.54",
     "body-parser": "^1.16.1",
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
@@ -16,10 +15,12 @@
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.54",
     "@types/body-parser": "^0.0.34",
     "@types/cors": "^2.8.0",
     "@types/dotenv": "^2.0.20",
     "@types/express": "^4.0.35",
+    "@types/knex": "^0.0.41",
     "@types/node": "^7.0.5"
   },
   "scripts": {
