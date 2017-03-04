@@ -10,7 +10,8 @@
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "knex": "^0.12.7",
-    "pretty-error": "^2.0.2"
+    "pretty-error": "^2.0.2",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "@types/body-parser": "^0.0.34",
