@@ -5,6 +5,7 @@ import * as PrettyError from 'pretty-error';
 
 import libraryRouter from './controllers/LibraryController';
 import sensorRouter from './controllers/SensorController';
+import searchRouter from './controllers/SearchController';
 
 const app = express();
 
@@ -18,6 +19,7 @@ pe.skipPackage('express');
 
 app.use('/api/v1', libraryRouter);
 app.use('/api/v1', sensorRouter);
+app.use('/api/v1', searchRouter);
 
 app.use((err: any, req: any, res:any, next: any) => {
   process.stderr.write(pe.render(err));

@@ -28,6 +28,12 @@ class Library extends Model {
 
     return res[0]["count(*)"];
   }
+
+  static async search(query: string): Promise<any> {
+    return await db(this.tableName).where(
+      db.raw(`LOWER(name) LIKE '%${query.toLowerCase()}%'`)
+    );
+  }
 }
 
 export default Library;
