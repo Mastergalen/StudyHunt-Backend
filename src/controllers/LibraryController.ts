@@ -30,9 +30,17 @@ router.get('/libraries/:id', async (req, res) => {
       });
     }
 
+    let dimensions = await Library.getGridDimensions(req.params.id);
+
     library.capacity = await Library.countAllSeats(req.params.id);
     library.available = await Library.countVacantSeats(req.params.id);
-    library.seats = await Library.getSeats(req.params.id);
+    library.seats = {
+      gridHeight: dimensions[0],
+      gridWidth: dimensions[1],
+      spaceMap: {
+        seats: await Library.getSeats(req.params.id)
+      }
+    }
 
     return res.json(library);
   } catch (e) {

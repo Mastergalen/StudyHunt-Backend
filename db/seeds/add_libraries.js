@@ -28,21 +28,63 @@ exports.seed = function(knex, Promise) {
       });
     }
 
-    return knex('seats').insert(seats, ['id']).then((res) => {
-      let seatId = res[res.length - 1];
-      let seats = [];
+    return knex('seats').insert(seats, ['id']);
+  }).then(() => {
+    return knex('libraries').insert([
+      {name: 'Engineering Hub', created_at: knex.fn.now(), updated_at: knex.fn.now()}
+    ], ['id']).then((res) => {
+      let engineeringHubId = res[res.length - 1];
+      let seats = [
+        {
+          library_id: engineeringHubId,
+          is_vacant: Math.random() >= 0.5,
+          pos_x: 0,
+          pos_y: 0,
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now()
+        },
+        {
+          library_id: engineeringHubId,
+          is_vacant: Math.random() >= 0.5,
+          pos_x: 1,
+          pos_y: 0,
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now()
+        },
+        {
+          library_id: engineeringHubId,
+          is_vacant: Math.random() >= 0.5,
+          pos_x: 0,
+          pos_y: 1,
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now()
+        },
+        {
+          library_id: engineeringHubId,
+          is_vacant: Math.random() >= 0.5,
+          pos_x: 1,
+          pos_y: 1,
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now()
+        },
+      ];
 
-      for (let i = 0; i < 4; i++) {
-        seats.push({sensor_id: 1, seat_id: seatId - i});
-      }
+      return knex('seats').insert(seats, ['id']).then((res) => {
+        let seatId = res[res.length - 1];
+        let seats = [];
 
-      return knex('sensors').insert([{
-        id: 1,
-        library_id: scienceLibraryId,
-        created_at: knex.fn.now(),
-        updated_at: knex.fn.now(),
-      }]).then(() => {
-        return knex('sensors_seats').insert(seats);
+        for (let i = 0; i < 4; i++) {
+          seats.push({sensor_id: 1, seat_id: seatId - i});
+        }
+
+        return knex('sensors').insert([{
+          id: 1,
+          library_id: engineeringHubId,
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now(),
+        }]).then(() => {
+          return knex('sensors_seats').insert(seats);
+        });
       });
     });
   });
