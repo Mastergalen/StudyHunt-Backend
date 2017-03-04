@@ -18,10 +18,6 @@
             "check-open-brace",
             "check-whitespace"
         ],
-        "quotemark": [
-            true,
-            "single"
-        ],
         "semicolon": [
             true,
             "always"
@@ -62,10 +58,6 @@
             true,
             "check-open-brace",
             "check-whitespace"
-        ],
-        "quotemark": [
-            true,
-            "single"
         ],
         "triple-equals": [
             true,
