@@ -5,11 +5,13 @@
   "author": "Mastergalen <Mastergalen@users.noreply.github.com>",
   "private": true,
   "dependencies": {
+    "@types/lodash": "^4.14.54",
     "body-parser": "^1.16.1",
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "knex": "^0.12.7",
+    "lodash": "^4.17.4",
     "pretty-error": "^2.0.2",
     "sqlite3": "^3.1.8"
   },
