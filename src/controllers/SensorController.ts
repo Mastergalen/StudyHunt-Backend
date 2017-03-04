@@ -4,7 +4,7 @@ import * as Debug from 'debug';
 import Sensor from "../models/Sensor";
 import Seat from "../models/Seat";
 
-const debug = Debug('app:api');
+const debug = Debug("app:api");
 const router = express.Router();
 
 function errorResponse(message: string) {
@@ -15,8 +15,7 @@ function errorResponse(message: string) {
 }
 
 router.post('/sensors/:id', async (req: express.Request, res: express.Response) => {
-
-  debug('Sensor post\n %O', req.body);
+  console.log('Sensor post\n %O', req.body);
 
   if (!req.body.temperature) {
     return res.status(400).json(errorResponse("Temperature has to be a float"));

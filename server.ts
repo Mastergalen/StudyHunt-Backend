@@ -1,10 +1,13 @@
 // let db;
 import * as dotenv from 'dotenv'
 import * as http from 'http';
+import * as Debug from 'debug';
 import app from './src/app';
 let server: http.Server;
 
 dotenv.config();
+
+const debug = Debug('app:main');
 
 // Launch Node.js server
 const launch = () => {
