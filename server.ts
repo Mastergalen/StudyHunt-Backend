@@ -1,11 +1,9 @@
-// let db;
 import * as dotenv from 'dotenv'
-import * as http from 'http';
+dotenv.config();
 import * as Debug from 'debug';
+import * as http from 'http';
 import app from './src/app';
 let server: http.Server;
-
-dotenv.config();
 
 const debug = Debug('app:main');
 
@@ -13,7 +11,7 @@ const debug = Debug('app:main');
 const launch = () => {
   // db = require('./db').default;
   server = app.listen(process.env.PORT, () => {
-    console.log(`Node.js API server is listening on http://localhost:${String(process.env.PORT)}/`);
+    debug(`Node.js API server is listening on http://localhost:${String(process.env.PORT)}/`);
   });
 };
 

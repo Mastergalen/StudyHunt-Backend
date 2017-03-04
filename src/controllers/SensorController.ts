@@ -15,7 +15,7 @@ function errorResponse(message: string) {
 }
 
 router.post('/sensors/:id', async (req: express.Request, res: express.Response) => {
-  console.log('Sensor post\n %O', req.body);
+  debug('Sensor post\n %O', req.body);
 
   if (!req.body.temperature) {
     return res.status(400).json(errorResponse("Temperature has to be a float"));
