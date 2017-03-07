@@ -4,6 +4,11 @@ function io(server: any): void {
   let socket = socketIO(server);
 
   socket.on("connection", (socket: any) => {
+    socket.emit('UPDATE_FRONTEND', {
+        lights: Math.random() > 0.5 ? "ON" : "OFF",
+        temperature: getRandomInt(20, 23).toString()
+      });
+
     setInterval(() => {
       socket.emit('UPDATE_FRONTEND', {
         lights: Math.random() > 0.5 ? "ON" : "OFF",
