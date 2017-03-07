@@ -8,8 +8,6 @@ router.get('/libraries', async (req, res) => {
 
   let libraries = await Library.fetchAll();
 
-  console.log(libraries);
-
   for (let l of libraries) {
     l.capacity = await Library.countAllSeats(l.id);
     l.available = await Library.countVacantSeats(l.id);

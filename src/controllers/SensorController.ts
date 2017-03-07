@@ -54,6 +54,9 @@ router.post('/sensors/:id', async (req: express.Request, res: express.Response) 
 
   await Promise.all(p);
 
+  // Update sensors_log
+  await Sensor.logSensor(req.params.id, req.body.temperature, req.body.luminosity);
+
   return res.json({
     success: true,
     updatedSeatIds
