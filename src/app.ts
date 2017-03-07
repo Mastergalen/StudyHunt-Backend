@@ -10,16 +10,7 @@ import searchRouter from './controllers/SearchController';
 
 const app: express.Express = express();
 
-const whitelist = ['http://localhost:3000', 'http://localhost:3001'];
-const corsOptions = {
-  credentials: true,
-  origin: function(origin: string, callback: Function){
-    let originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-    callback(originIsWhitelisted ? null : 'Bad Request', originIsWhitelisted);
-  }
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
