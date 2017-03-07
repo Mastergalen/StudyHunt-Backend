@@ -1,16 +1,23 @@
 import * as dotenv from 'dotenv'
+const httpMod = require("http");
 dotenv.config();
 import * as Debug from 'debug';
 import * as http from 'http';
 import app from './src/app';
+import io from './src/socket';
 let server: http.Server;
 
 const debug = Debug('app:main');
 
+const httpServer = httpMod.Server(app);
+
+// Start Web Socket server
+io(httpServer);
+
 // Launch Node.js server
 const launch = () => {
   // db = require('./db').default;
-  server = app.listen(process.env.PORT, () => {
+  server = httpServer.listen(process.env.PORT, () => {
     debug(`Node.js API server is listening on http://localhost:${String(process.env.PORT)}/`);
   });
 };
