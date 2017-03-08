@@ -36,6 +36,11 @@ class Library extends Model {
       'library_id': libraryId
     }).orderBy('pos_x', 'DESC').limit(1);
 
+    // No seats found in DB, return null
+    if (res.length === 0) {
+      return [null, null];
+    }
+
     let width = res[0].pos_x + 1;
 
     res = await db('seats').select('pos_y').where({
