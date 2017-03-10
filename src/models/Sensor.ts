@@ -16,6 +16,18 @@ class Sensor extends Model {
       luminosity
     });
   }
+
+  static async getLatestSensorReading(sensorId: number): Promise<{ temperature: string }> {
+    let res = await db('sensors_log').where('id', sensorId).orderBy('created_at', 'DESC').limit(1);
+
+    if (res.length === 0) {
+      return {
+        temperature: "N/A"
+      };
+    }
+
+    return res[0];
+  }
 }
 
 export default Sensor;

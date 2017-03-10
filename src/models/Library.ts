@@ -58,6 +58,9 @@ class Library extends Model {
     );
   }
 
+  /**
+   * Fetches global statistics
+   */
   static async global(): Promise<any> {
     let capacity = await db('seats').count('* as c');
     let vacantSeats = await db('seats').count('* as c').where('is_vacant', true);
