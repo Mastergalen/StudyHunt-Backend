@@ -37,6 +37,18 @@ module.exports = {
   },
 
   production: {
+    client: 'sqlite3',
+    connection: {
+      filename: './dev.sqlite3'
+    },
+    migrations: {
+      directory: './db/migrations',
+      tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: './db/seeds',
+    }
+    /*
     client: 'postgresql',
     connection: {
       database: 'my_db',
@@ -54,6 +66,7 @@ module.exports = {
     seeds: {
       directory: './db/seeds',
     }
+    */
   }
 
 };
