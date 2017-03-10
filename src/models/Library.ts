@@ -57,6 +57,17 @@ class Library extends Model {
       db.raw(`LOWER(name) LIKE '%${query.toLowerCase()}%'`)
     );
   }
+
+  static async global(): Promise<any> {
+    let capacity = await db('seats').count('* as c');
+    let vacantSeats = await db('seats').count('* as c').where('is_vacant', true);
+
+    return {
+      energyEfficiency: 56, // TODO Dynamically calculate energy efficiency
+      capacity: capacity[0].c,
+      vacantSeats: vacantSeats[0].c
+    }
+  }
 }
 
 export default Library;

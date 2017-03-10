@@ -4,6 +4,7 @@ import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import * as PrettyError from 'pretty-error';
 
+import globalController from './controllers/GlobalController';
 import libraryRouter from './controllers/LibraryController';
 import sensorRouter from './controllers/SensorController';
 import searchRouter from './controllers/SearchController';
@@ -18,6 +19,7 @@ const pe = new PrettyError();
 pe.skipNodeFiles();
 pe.skipPackage('express');
 
+app.use('/api/v1', globalController);
 app.use('/api/v1', libraryRouter);
 app.use('/api/v1', sensorRouter);
 app.use('/api/v1', searchRouter);
