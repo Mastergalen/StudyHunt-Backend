@@ -8,7 +8,7 @@ exports.seed = function(knex, Promise) {
     let seats = [
       {
         library_id: engineeringHubId,
-        is_vacant: Math.random() >= 0.5,
+        is_vacant: true,
         pos_x: 0,
         pos_y: 0,
         created_at: knex.fn.now(),
@@ -16,7 +16,7 @@ exports.seed = function(knex, Promise) {
       },
       {
         library_id: engineeringHubId,
-        is_vacant: Math.random() >= 0.5,
+        is_vacant: true,
         pos_x: 1,
         pos_y: 0,
         created_at: knex.fn.now(),
@@ -24,7 +24,7 @@ exports.seed = function(knex, Promise) {
       },
       {
         library_id: engineeringHubId,
-        is_vacant: Math.random() >= 0.5,
+        is_vacant: true,
         pos_x: 0,
         pos_y: 1,
         created_at: knex.fn.now(),
@@ -32,7 +32,7 @@ exports.seed = function(knex, Promise) {
       },
       {
         library_id: engineeringHubId,
-        is_vacant: Math.random() >= 0.5,
+        is_vacant: false,
         pos_x: 1,
         pos_y: 1,
         created_at: knex.fn.now(),
@@ -56,16 +56,21 @@ exports.seed = function(knex, Promise) {
       }]).then(() => {
         return knex('sensors_seats').insert(seats);
       }).then(() => {
-        let today = moment().subtract(1, 'days').format("YYYY-MM-DD");
+        let yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD");
 
         return knex('seats_log').insert([
-          {seat_id: seatId, is_vacant: false, created_at: `${today} 15:00`},
-          {seat_id: seatId, is_vacant: true, created_at: `${today} 15:30`},
-          {seat_id: seatId, is_vacant: false, created_at: `${today} 15:36`},
-          {seat_id: seatId, is_vacant: true, created_at: `${today} 16:36`},
+          {seat_id: seatId, is_vacant: false, created_at: `${yesterday} 15:00`},
+          {seat_id: seatId, is_vacant: true, created_at: `${yesterday} 15:30`},
+          {seat_id: seatId, is_vacant: false, created_at: `${yesterday} 15:36`},
+          {seat_id: seatId, is_vacant: true, created_at: `${yesterday} 16:36`},
+          {seat_id: seatId, is_vacant: false, created_at: `${yesterday} 19:01`},
+          {seat_id: seatId, is_vacant: true, created_at: `${yesterday} 22:22`},
+          {seat_id: seatId, is_vacant: false, created_at: `${yesterday} 23:48`},
           //
-          {seat_id: seatId - 1, is_vacant: false, created_at: `${today} 14:32`},
-          {seat_id: seatId - 1, is_vacant: true, created_at: `${today} 15:36`},
+          {seat_id: seatId - 1, is_vacant: false, created_at: `${yesterday} 14:32`},
+          {seat_id: seatId - 1, is_vacant: true, created_at: `${yesterday} 15:36`},
+          {seat_id: seatId - 1, is_vacant: false, created_at: `${yesterday} 19:24`},
+          {seat_id: seatId - 1, is_vacant: true, created_at: `${yesterday} 20:16`},
         ]);
       });
     });
