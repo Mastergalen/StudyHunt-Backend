@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import db from "../db";
 import Seat from "./Seat";
 import Model from "./Model";
@@ -70,6 +71,42 @@ class Library extends Model {
       capacity: capacity[0].c,
       vacantSeats: vacantSeats[0].c
     }
+  }
+
+  static async getHistory(libraryId: number): Promise<any> {
+    let capacity = await this.countAllSeats(libraryId);
+
+    const getOccupiedSeats = async (before: string) => {
+      let res = await db('seats').count().leftJoin(
+        db.select().from('seats_log').whereIn('id',
+          db.max('id').from('seats_log')
+            .where('seats_log.created_at', '<', before)
+            .groupBy('seat_id')
+        ).as('most_recent_seat'),
+        'seats.id',
+        '=',
+        'most_recent_seat.seat_id'
+      ).where({
+        'seats.library_id': libraryId,
+        'most_recent_seat.is_vacant': false
+      });
+
+      return res[0]['count(*)'];
+    }
+
+    let history = [];
+
+    for (let i = 0; i < 24; i++) {
+      let time = moment().subtract(i, 'hours');
+      let occupiedSeats = await getOccupiedSeats(time.format("YYYY-MM-DD HH:mm:ss"))
+      let vacancies = capacity - occupiedSeats;
+      history.unshift({
+        time: time.toISOString(),
+        vacantSeats: vacancies
+      });
+    }
+
+    return history;
   }
 }
 

@@ -46,4 +46,16 @@ router.get('/libraries/:id', async (req, res) => {
   }
 });
 
+router.get('/libraries/:id/history', async (req, res) => {
+  try {
+    let history = await Library.getHistory(req.params.id);
+
+    return res.json({
+      history
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
 export default router;
