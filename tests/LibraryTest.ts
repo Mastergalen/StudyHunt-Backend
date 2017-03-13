@@ -12,6 +12,6 @@ describe('Library', () => {
 
     let history = await Library.getHistory(engineeringHub.id);
 
-    console.log(history);
+    history.length.should.be.equal(24);
   });
 });
