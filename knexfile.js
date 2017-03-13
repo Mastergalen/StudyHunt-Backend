@@ -13,7 +13,11 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds',
-    }
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
   },
 
   staging: {
@@ -47,7 +51,11 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds',
-    }
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
     /*
     client: 'postgresql',
     connection: {
