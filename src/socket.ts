@@ -1,26 +1,34 @@
 import * as socketIO from "socket.io";
 import Sensor from "./models/Sensor";
+import Library from "./models/Library";
 
 function io(server: any): void {
   let socket = socketIO(server);
 
   socket.on("connection", async (socket: any) => {
-    let res = await Sensor.getLatestSensorReading(1);
+    let searchResults = await Library.search("Engineering Hub");
+    let engineeringHubId = searchResults[0].id;
 
-    socket.emit('UPDATE_FRONTEND', {
-      lights: Math.random() > 0.5 ? "ON" : "OFF",
-      temperature: getRandomInt(20, 23).toString(),
-      roomTemperature: res.temperature,
-    });
+    let sendUpdate = async () => {
+      let sensorReading = await Sensor.getLatestSensorReading(1);
+      let seats = await Library.getSeats(engineeringHubId);
+      let usedSeats = 0;
 
-    setInterval(async () => {
-      res =  await Sensor.getLatestSensorReading(1)
+      for (let s of seats) {
+        if (!s.is_vacant) usedSeats++;
+      }
+
+      let isLightOn: boolean = usedSeats > 0;
+
       socket.emit('UPDATE_FRONTEND', {
-        lights: Math.random() > 0.5 ? "ON" : "OFF",
+        lights: isLightOn ? "ON" : "OFF",
         temperature: getRandomInt(20, 23).toString(),
-        roomTemperature: res.temperature,
+        roomTemperature: sensorReading.temperature,
       });
-    }, 5000);
+    }
+
+    await sendUpdate();
+    setInterval(sendUpdate, 5000);
   });
 }
 
