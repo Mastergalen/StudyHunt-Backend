@@ -8,6 +8,7 @@ import globalController from './controllers/GlobalController';
 import libraryRouter from './controllers/LibraryController';
 import sensorRouter from './controllers/SensorController';
 import searchRouter from './controllers/SearchController';
+import versionController from './controllers/VersionController';
 
 const app: express.Express = express();
 
@@ -23,6 +24,7 @@ app.use('/api/v1', globalController);
 app.use('/api/v1', libraryRouter);
 app.use('/api/v1', sensorRouter);
 app.use('/api/v1', searchRouter);
+app.use('/api/v1', versionController);
 
 app.use((err: any, req: any, res: any, next: any) => {
   process.stderr.write(pe.render(err));
