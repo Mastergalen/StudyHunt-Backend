@@ -1,9 +1,15 @@
 import * as express from "express";
 import * as child_process from "child_process"
 
-let revision: string = child_process
-  .execSync("git rev-parse HEAD")
-  .toString().trim();
+let revision: string = null;
+
+try {
+  revision = child_process
+    .execSync("git rev-parse HEAD")
+    .toString().trim();
+} catch(e) {
+  console.log("Unable to get git revision");
+}
 
 const router = express.Router();
 
