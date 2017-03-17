@@ -5,6 +5,7 @@ import Sensor from "../models/Sensor";
 import Seat from "../models/Seat";
 
 const debug = Debug("app:api");
+const error = Debug("app:error");
 const router = express.Router();
 
 function errorResponse(message: string) {
@@ -39,7 +40,6 @@ router.post('/sensors/:id', async (req: express.Request, res: express.Response) 
     return res.status(500).json(errorResponse("Seat configuration in DB does not match"));
   }
 
-  let p = [];
   let updatedSeatIds = [];
   for (let i = 0; i < seats.length; i++) {
     let isOccupied = req.body.seats[(i + 1).toString()];
@@ -49,10 +49,13 @@ router.post('/sensors/:id', async (req: express.Request, res: express.Response) 
       isOccupied
     });
 
-    p.push(Seat.update(seatId, !isOccupied));
+    try {
+      await Seat.update(seatId, !isOccupied);
+    }  catch (e) {
+      error("DB: Failed updating seats");
+      error(e);
+    }
   }
-
-  await Promise.all(p);
 
   // Update sensors_log
   await Sensor.logSensor(req.params.id, req.body.temperature, req.body.luminosity);
