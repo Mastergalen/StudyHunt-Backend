@@ -17,12 +17,13 @@ class Sensor extends Model {
     });
   }
 
-  static async getLatestSensorReading(sensorId: number): Promise<{ temperature: string }> {
-    let res = await db('sensors_log').where('id', sensorId).orderBy('created_at', 'DESC').limit(1);
+  static async getLatestSensorReading(sensorId: number): Promise<{ temperature: string, luminosity: number }> {
+    let res = await db('sensors_log').where('sensor_id', sensorId).orderBy('created_at', 'desc').limit(1);
 
     if (res.length === 0) {
       return {
-        temperature: "N/A"
+        temperature: "N/A",
+        luminosity: -1.0
       };
     }
 

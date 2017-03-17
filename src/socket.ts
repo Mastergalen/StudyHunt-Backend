@@ -18,11 +18,19 @@ function io(server: any): void {
         if (!s.is_vacant) usedSeats++;
       }
 
-      let isLightOn: boolean = usedSeats > 0;
+      // Lux has to be lower than 40 for lights to turn on
+      let isLightOn: boolean = (sensorReading.luminosity < 40 && usedSeats > 0);
+
+
+      let temperature = 22;
+      if (usedSeats === 0) {
+        temperature = 19;
+      }
 
       socket.emit('UPDATE_FRONTEND', {
         lights: isLightOn ? "ON" : "OFF",
-        temperature: getRandomInt(20, 23).toString(),
+        luminosity: sensorReading.luminosity,
+        temperature,
         roomTemperature: sensorReading.temperature,
       });
     }
