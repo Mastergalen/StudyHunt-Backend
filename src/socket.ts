@@ -8,6 +8,7 @@ function io(server: any): void {
   socket.on("connection", async (socket: any) => {
     let searchResults = await Library.search("Engineering Hub");
     let engineeringHubId = searchResults[0].id;
+    let previousLightOn: boolean = null;
 
     let sendUpdate = async () => {
       let sensorReading = await Sensor.getLatestSensorReading(1);
@@ -18,9 +19,14 @@ function io(server: any): void {
         if (!s.is_vacant) usedSeats++;
       }
 
+      let isLightOn: boolean;
+      // Use previousLightOn to prevent oscillating lights
       // Lux has to be lower than 40 for lights to turn on
-      let isLightOn: boolean = (sensorReading.luminosity < 40 && usedSeats > 0);
-
+      if (previousLightOn) {
+        isLightOn = (usedSeats > 0);
+      } else {
+        isLightOn = (sensorReading.luminosity < 40 && usedSeats > 0);
+      }
 
       let temperature = 22;
       if (usedSeats === 0) {
@@ -33,6 +39,8 @@ function io(server: any): void {
         temperature,
         roomTemperature: sensorReading.temperature,
       });
+
+      previousLightOn = isLightOn;
     }
 
     await sendUpdate();
