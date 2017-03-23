@@ -25,7 +25,7 @@ function io(server: any): void {
       if (previousLightOn) {
         isLightOn = (usedSeats > 0);
       } else {
-        isLightOn = (sensorReading.luminosity < 40 && usedSeats > 0);
+        isLightOn = (sensorReading.luminosity < 70 && usedSeats > 0);
       }
 
       let temperature = 22;
