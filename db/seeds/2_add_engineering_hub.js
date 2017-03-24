@@ -58,6 +58,7 @@ exports.seed = function(knex, Promise) {
         return knex('sensors_seats').insert(seats);
       }).then(() => {
         let yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD");
+        let threeHoursAgo = moment().subtract(3, 'hours');
 
         return knex('seats_log').insert([
           {seat_id: seatId, is_vacant: false, created_at: `${yesterday} 15:00`},
@@ -72,6 +73,14 @@ exports.seed = function(knex, Promise) {
           {seat_id: seatId - 1, is_vacant: true, created_at: `${yesterday} 15:36`},
           {seat_id: seatId - 1, is_vacant: false, created_at: `${yesterday} 19:24`},
           {seat_id: seatId - 1, is_vacant: true, created_at: `${yesterday} 20:16`},
+
+          {seat_id: seatId - 2, is_vacant: false, created_at: `${yesterday} 19:25`},
+          {seat_id: seatId - 2, is_vacant: true, created_at: `${yesterday} 20:18`},
+          {seat_id: seatId - 2, is_vacant: false, created_at: threeHoursAgo.format("YYYY-MM-DD HH:mm")},
+          {seat_id: seatId - 2, is_vacant: true, created_at: threeHoursAgo.add(46, 'minutes').format("YYYY-MM-DD HH:mm")},
+
+          {seat_id: seatId - 3, is_vacant: false, created_at: `${yesterday} 19:25`},
+          {seat_id: seatId - 3, is_vacant: true, created_at: `${yesterday} 20:17`},
         ]);
       });
     });

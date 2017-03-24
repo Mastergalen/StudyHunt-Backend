@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as _ from 'lodash';
+import * as moment from "moment";
 import Library from "../models/Library";
 
 const router = express.Router();
@@ -32,6 +33,14 @@ router.get('/libraries/:id', async (req, res) => {
 
     library.capacity = await Library.countAllSeats(req.params.id);
     library.available = await Library.countVacantSeats(req.params.id);
+
+    let lookaheadTime = moment().subtract(5, 'hours');
+    let lookaheadSeatsOccupied = await Library.getOccupiedSeats(req.params.id, lookaheadTime);
+    let percentageWillBeOccupied = lookaheadSeatsOccupied / library.capacity;
+
+    // If more than 80 percent will be occupied in 1 hour, show busy warning
+    library.willBeBusy = percentageWillBeOccupied > 0.8;
+
     library.seats = {
       gridHeight: dimensions[0],
       gridWidth: dimensions[1],
