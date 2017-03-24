@@ -44,7 +44,7 @@ function io(server: any): void {
     }
 
     await sendUpdate();
-    setInterval(sendUpdate, 5000);
+    setInterval(sendUpdate, 1000);
   });
 }
 
