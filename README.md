@@ -1,5 +1,7 @@
 # StudyHunt-Backend
 
+Backend for StudyHunt project. Allows you to track library seat availability using the GridEye sensor.
+
 ## Installation
 
 Make sure you have [yarn](https://yarnpkg.com/en/) installed.
